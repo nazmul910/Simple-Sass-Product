@@ -44,8 +44,9 @@ model Payment{
   user User @relation(fields:[userId], references:[id])
 }
 
-enum PlanType{
+enum PlanType {
   FREE
-  PRO
-  ENTERPRISE
+  BASIC
+  STANDARD
+  PREMIUM
 }
