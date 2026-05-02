@@ -29,9 +29,10 @@ model User{
   tenantId String
   plan PlanType @default(FREE)
 
-
+  planeExpiry DateTime?
   tenant Tenant @relation(fields:[tenantId], references:[id])
   payments Payment[]
+  role Role @default(USER)
 }
 
 model Payment{
@@ -49,4 +50,9 @@ enum PlanType {
   BASIC
   STANDARD
   PREMIUM
+}
+
+enum Role {
+  USER
+  ADMIN
 }
