@@ -29,7 +29,7 @@ model User{
   tenantId String
   plan PlanType @default(FREE)
 
-  planeExpiry DateTime?
+  planExpiry DateTime? @map("planeExpiry")
   tenant Tenant @relation(fields:[tenantId], references:[id])
   payments Payment[]
   role Role @default(USER)

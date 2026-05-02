@@ -29,21 +29,40 @@ export class PaymentService {
   }
 
 
-  async paymentSuccess(body:any){
-    const {amount, value_a, tran_id} = body;
-    let plan: PlanType = PlanType.FREE;
-    
-    if (amount == 10) plan = PlanType.BASIC;
-    if (amount == 100) plan = PlanType.STANDARD;
-    if (amount == 1000) plan = PlanType.PREMIUM;
+async paymentSuccess(body: any) {
+  const { amount, value_a } = body;
 
-    await this.prisma.user.update({
-        where:{id: value_a},
-        data:{plan},
-    });
+  const amountNum = Number(amount);
 
-    return {message: "Payment successful, plan updated"};
+  let plan: PlanType = PlanType.FREE;
+  let days = 0;
+
+  if (amountNum === 10) {
+    plan = PlanType.BASIC;
+    days = 7;
   }
+  if (amountNum === 100) {
+    plan = PlanType.STANDARD;
+    days = 30;
+  }
+  if (amountNum === 1000) {
+    plan = PlanType.PREMIUM;
+    days = 90;
+  }
+
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + days);
+
+  await this.prisma.user.update({
+    where: { id: value_a },
+    data: {
+      plan,
+      planExpiry: expiry,
+    },
+  });
+
+  return { message: 'Payment success' };
+}
 
 
 
