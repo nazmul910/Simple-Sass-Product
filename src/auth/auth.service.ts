@@ -59,7 +59,7 @@ export class AuthService {
         const isMatch = await bcrypt.compare(password,user.password);
 
         if(!isMatch){
-            throw new Error("Invalid password");
+            throw new Error("Invalid email or password");
         }
 
         const token = jwt.sign(
