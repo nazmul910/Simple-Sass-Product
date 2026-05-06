@@ -1,25 +1,27 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../common/guards/jwt.guard';
 import { PlanGuard } from '../common/guards/plan.guard';
+import { FeaturesService } from './features.service';
 
 @Controller('features')
 export class FeaturesController {
+  constructor(private featuresService: FeaturesService) {}
 
   @UseGuards(JwtGuard, new PlanGuard('BASIC'))
   @Get('feature1')
-  feature1() {
-    return { message: 'Basic feature unlocked' };
+  feature1(@Req() req: any) {
+    return this.featuresService.getFeature1(req.user.userId);
   }
 
   @UseGuards(JwtGuard, new PlanGuard('STANDARD'))
   @Get('feature2')
-  feature2() {
-    return { message: 'Standard feature unlocked' };
+  feature2(@Req() req: any) {
+    return this.featuresService.getFeature2(req.user.userId);
   }
 
   @UseGuards(JwtGuard, new PlanGuard('PREMIUM'))
   @Get('feature3')
-  feature3() {
-    return { message: 'Premium feature unlocked' };
+  feature3(@Req() req: any) {
+    return this.featuresService.getFeature3(req.user.userId);
   }
 }
