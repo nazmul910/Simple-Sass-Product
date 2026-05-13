@@ -20,9 +20,9 @@ const paymentData = {
       currency: 'BDT',
       tran_id,
 
-      success_url: 'http://localhost:5002/api/payment/success',
-      fail_url: 'http://localhost:5002/api/payment/fail',
-      cancel_url: 'http://localhost:5002/api/payment/cancel',
+      success_url: 'http://localhost:3000/payment/success',
+      fail_url: 'http://localhost:3000/payment/fail',
+      cancel_url: 'http://localhost:3000/payment/cancel',
 
       cus_name: 'Customer',
       cus_email: 'customer@example.com',
