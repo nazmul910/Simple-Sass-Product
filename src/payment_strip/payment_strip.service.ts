@@ -45,7 +45,7 @@ export class PaymentStripService {
 
 
     async handleWebhook(rawBody:Buffer,signature:string) {
-        let event:Stripe.Event;
+        let event: Stripe.Event;
 
 try {
       event = this.stripe.webhooks.constructEvent(
