@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Stripe } from 'stripe';
+import Stripe from 'stripe';
 
 @Injectable()
 export class PaymentStripService {
-    private stripe: Stripe ;
+    private stripe: InstanceType<typeof Stripe>;
     constructor(private prisma: PrismaService){
-        this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY,{
-            apiVersion: '2024-06-20',
-        })
+        const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+        if (!stripeSecretKey) {
+            throw new Error('Missing STRIPE_SECRET_KEY environment variable');
+        }
+
+        this.stripe = new Stripe(stripeSecretKey, {
+            apiVersion: Stripe.API_VERSION,
+        });
     }
 
     async createPayment(userId:string,amount:number){
@@ -44,19 +49,26 @@ export class PaymentStripService {
     }
 
 
-    async handleWebhook(rawBody:Buffer,signature:string) {
-        let event: Stripe.Event;
+    async handleWebhook(rawBody: Buffer, signature: string) {
+        const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+        if (!webhookSecret) {
+            throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable');
+        }
 
-try {
-      event = this.stripe.webhooks.constructEvent(
-        rawBody,
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET,
-      );
-    } catch (error) {
-      console.error('Webhook signature failed:', error.message);
-      throw new Error('Invalid webhook signature');
-    }
+        let event;
+
+        try {
+            event = this.stripe.webhooks.constructEvent(
+                rawBody,
+                signature,
+                webhookSecret,
+            );
+        } catch (error) {
+            console.error('Webhook signature failed:', error instanceof Error ? error.message : error);
+            throw new Error('Invalid webhook signature');
+        }
+
+        return event;
     }
 
 
