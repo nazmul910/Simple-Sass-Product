@@ -13,7 +13,7 @@ import { PaymentStripModule } from './payment_strip/payment_strip.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, AuthModule, UsersModule, PaymentModule, FeaturesModule, PaymentStripModule],
-  controllers: [AppController, PaymentStripController],
-  providers: [AppService, PaymentStripService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

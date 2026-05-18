@@ -14,7 +14,9 @@ async function bootstrap() {
   });
 
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api',{
+    exclude: ['payment-strip/webhook'],
+  });
 
   const PORT = process.env.PORT || 5002;
 

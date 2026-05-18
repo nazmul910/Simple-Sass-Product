@@ -3,22 +3,21 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PlanType } from 'generated/prisma/enums';
 import Stripe from 'stripe';
 
+type StripeClient = InstanceType<typeof Stripe>;
 
 @Injectable()
 export class PaymentStripService {
-  private stripe: InstanceType<typeof Stripe>;
+  private stripe: StripeClient;
 
   constructor(private prisma: PrismaService) {
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
     if (!stripeSecretKey) {
       throw new Error('Missing STRIPE_SECRET_KEY environment variable');
     }
-
     this.stripe = new Stripe(stripeSecretKey);
   }
 
   async createPayment(userId: string, amount: number) {
-
     console.log(`Creating payment → userId: ${userId} | amount: ${amount}`);
     try {
       const session = await this.stripe.checkout.sessions.create({
@@ -27,9 +26,7 @@ export class PaymentStripService {
           {
             price_data: {
               currency: 'usd',
-              product_data: {
-                name: 'Subscription Plan',
-              },
+              product_data: { name: 'Subscription Plan' },
               unit_amount: amount * 100,
             },
             quantity: 1,
@@ -56,29 +53,36 @@ export class PaymentStripService {
       throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable');
     }
 
-    let event: any;
+
+    let event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(
-        rawBody,
-        signature,
-        webhookSecret,
-      );
+      event = this.stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
     } catch (error) {
-      console.error('Webhook signature failed:', error instanceof Error ? error.message : error);
+      console.error(
+        'Webhook signature verification failed:',
+        error instanceof Error ? error.message : error,
+      );
       throw new Error('Invalid webhook signature');
     }
 
+    console.log(`Webhook event received: ${event.type}`);
+
     if (event.type === 'checkout.session.completed') {
-      await this.fulfillOrder(event.data.object );
+      await this.fulfillOrder(event.data.object);
     }
 
     return { received: true };
   }
 
-
   private async fulfillOrder(session: any) {
-    const { userId, amount } = session.metadata!;
+    const { userId, amount } = session.metadata;
+
+    if (!userId || !amount) {
+      console.error('Missing metadata in session:', session.id);
+      return;
+    }
+
     const amountNum = Number(amount);
 
     let plan: PlanType = PlanType.FREE;
@@ -100,10 +104,7 @@ export class PaymentStripService {
 
     await this.prisma.user.update({
       where: { id: userId },
-      data: {
-        plan,
-        planExpiry: expiry,
-      },
+      data: { plan, planExpiry: expiry },
     });
 
     console.log(`Plan updated → userId: ${userId} | plan: ${plan} | expiry: ${expiry}`);
