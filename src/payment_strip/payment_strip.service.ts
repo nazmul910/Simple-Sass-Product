@@ -18,6 +18,8 @@ export class PaymentStripService {
   }
 
   async createPayment(userId: string, amount: number) {
+
+    console.log(`Creating payment → userId: ${userId} | amount: ${amount}`);
     try {
       const session = await this.stripe.checkout.sessions.create({
         mode: 'payment',

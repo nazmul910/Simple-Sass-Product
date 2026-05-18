@@ -12,7 +12,7 @@ export class PaymentService {
 
 async  createPayment(userId: string, amount: number) {
     const tran_id = uuid();
-
+    console.log('Creating payment with data:', { userId, amount, tran_id });
 const paymentData = {
       store_id: process.env.STORE_ID,
       store_passwd: process.env.STORE_PASS,   
@@ -20,9 +20,9 @@ const paymentData = {
       currency: 'BDT',
       tran_id,
 
-      success_url: 'http://localhost:3000/payment/success',
-      fail_url: 'http://localhost:3000/payment/fail',
-      cancel_url: 'http://localhost:3000/payment/cancel',
+      success_url: 'https://outhouse-bulldog-jeep.ngrok-free.dev/api/payment/success',
+      fail_url: 'https://outhouse-bulldog-jeep.ngrok-free.dev/api/payment/fail',
+      cancel_url: 'https://outhouse-bulldog-jeep.ngrok-free.dev/api/payment/cancel',
 
       cus_name: 'Customer',
       cus_email: 'customer@example.com',
@@ -67,7 +67,15 @@ const paymentData = {
 
 
 async paymentSuccess(body: any) {
+
+  console.log('=== PAYMENT SUCCESS CALLED ===');
+  console.log('BODY:', JSON.stringify(body));
+
   const { amount, value_a } = body;
+
+  console.log('value_a:', value_a);
+  console.log('amount:', amount);
+  console.log('amountNum:', Number(amount));
 
   const amountNum = Number(amount);
 
@@ -78,28 +86,33 @@ async paymentSuccess(body: any) {
     plan = PlanType.BASIC;
     days = 7;
   }
-  if (amountNum === 100) {
+  else if (amountNum === 100) {
     plan = PlanType.STANDARD;
     days = 30;
   }
-  if (amountNum === 1000) {
+  else if (amountNum === 1000) {
     plan = PlanType.PREMIUM;
     days = 90;
+  } else {
+    console.log('NO PLAN MATCHED - amountNum was:', amountNum);
   }
+
+   console.log('Plan selected:', plan, '| Days:', days);
 
   const expiry = new Date();
   expiry.setDate(expiry.getDate() + days);
 
-  await this.prisma.user.update({
-    where: { id: value_a },
-    data: {
-      plan,
-      planExpiry: expiry,
-    },
-  });
+ try {
+    const updated = await this.prisma.user.update({
+      where: { id: value_a },
+      data: { plan, planExpiry: expiry },
+    });
+    console.log('DB UPDATED:', updated.plan, updated.planExpiry);
+  } catch (err) {
+    console.error('DB UPDATE FAILED:', err);
+  }
 
   return { message: 'Payment success' };
 }
-
 
 }
