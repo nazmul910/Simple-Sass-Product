@@ -6,6 +6,13 @@ export declare class PaymentStripService {
     createPayment(userId: string, amount: number): Promise<{
         gatewayURL: string | null;
     }>;
+    verifyAndFulfill(sessionId: string): Promise<{
+        success: boolean;
+        alreadyProcessed: boolean;
+    } | {
+        success: boolean;
+        alreadyProcessed?: undefined;
+    }>;
     handleWebhook(rawBody: Buffer, signature: string): Promise<{
         received: boolean;
     }>;

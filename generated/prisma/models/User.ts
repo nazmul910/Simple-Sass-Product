@@ -30,6 +30,7 @@ export type UserMinAggregateOutputType = {
   password: string | null
   tenantId: string | null
   plan: $Enums.PlanType | null
+  stripeSessionId: string | null
   planExpiry: Date | null
   role: $Enums.Role | null
 }
@@ -40,6 +41,7 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   tenantId: string | null
   plan: $Enums.PlanType | null
+  stripeSessionId: string | null
   planExpiry: Date | null
   role: $Enums.Role | null
 }
@@ -50,6 +52,7 @@ export type UserCountAggregateOutputType = {
   password: number
   tenantId: number
   plan: number
+  stripeSessionId: number
   planExpiry: number
   role: number
   _all: number
@@ -62,6 +65,7 @@ export type UserMinAggregateInputType = {
   password?: true
   tenantId?: true
   plan?: true
+  stripeSessionId?: true
   planExpiry?: true
   role?: true
 }
@@ -72,6 +76,7 @@ export type UserMaxAggregateInputType = {
   password?: true
   tenantId?: true
   plan?: true
+  stripeSessionId?: true
   planExpiry?: true
   role?: true
 }
@@ -82,6 +87,7 @@ export type UserCountAggregateInputType = {
   password?: true
   tenantId?: true
   plan?: true
+  stripeSessionId?: true
   planExpiry?: true
   role?: true
   _all?: true
@@ -165,6 +171,7 @@ export type UserGroupByOutputType = {
   password: string
   tenantId: string
   plan: $Enums.PlanType
+  stripeSessionId: string | null
   planExpiry: Date | null
   role: $Enums.Role
   _count: UserCountAggregateOutputType | null
@@ -196,6 +203,7 @@ export type UserWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   tenantId?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.EnumPlanTypeFilter<"User"> | $Enums.PlanType
+  stripeSessionId?: Prisma.StringNullableFilter<"User"> | string | null
   planExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -208,6 +216,7 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   planExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -223,6 +232,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringFilter<"User"> | string
   tenantId?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.EnumPlanTypeFilter<"User"> | $Enums.PlanType
+  stripeSessionId?: Prisma.StringNullableFilter<"User"> | string | null
   planExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -235,6 +245,7 @@ export type UserOrderByWithAggregationInput = {
   password?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
   planExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -251,6 +262,7 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   tenantId?: Prisma.StringWithAggregatesFilter<"User"> | string
   plan?: Prisma.EnumPlanTypeWithAggregatesFilter<"User"> | $Enums.PlanType
+  stripeSessionId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   planExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
 }
@@ -260,6 +272,7 @@ export type UserCreateInput = {
   email: string
   password: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
   tenant: Prisma.TenantCreateNestedOneWithoutUsersInput
@@ -272,6 +285,7 @@ export type UserUncheckedCreateInput = {
   password: string
   tenantId: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -282,6 +296,7 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   tenant?: Prisma.TenantUpdateOneRequiredWithoutUsersNestedInput
@@ -294,6 +309,7 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -305,6 +321,7 @@ export type UserCreateManyInput = {
   password: string
   tenantId: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
 }
@@ -314,6 +331,7 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
 }
@@ -324,6 +342,7 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
 }
@@ -344,6 +363,7 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrder
   planExpiry?: Prisma.SortOrder
   role?: Prisma.SortOrder
 }
@@ -354,6 +374,7 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrder
   planExpiry?: Prisma.SortOrder
   role?: Prisma.SortOrder
 }
@@ -364,6 +385,7 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
+  stripeSessionId?: Prisma.SortOrder
   planExpiry?: Prisma.SortOrder
   role?: Prisma.SortOrder
 }
@@ -419,6 +441,10 @@ export type EnumPlanTypeFieldUpdateOperationsInput = {
   set?: $Enums.PlanType
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
@@ -446,6 +472,7 @@ export type UserCreateWithoutTenantInput = {
   email: string
   password: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -456,6 +483,7 @@ export type UserUncheckedCreateWithoutTenantInput = {
   email: string
   password: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -496,6 +524,7 @@ export type UserScalarWhereInput = {
   password?: Prisma.StringFilter<"User"> | string
   tenantId?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.EnumPlanTypeFilter<"User"> | $Enums.PlanType
+  stripeSessionId?: Prisma.StringNullableFilter<"User"> | string | null
   planExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
 }
@@ -505,6 +534,7 @@ export type UserCreateWithoutPaymentsInput = {
   email: string
   password: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
   tenant: Prisma.TenantCreateNestedOneWithoutUsersInput
@@ -516,6 +546,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   password: string
   tenantId: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
 }
@@ -541,6 +572,7 @@ export type UserUpdateWithoutPaymentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   tenant?: Prisma.TenantUpdateOneRequiredWithoutUsersNestedInput
@@ -552,6 +584,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   password?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
 }
@@ -561,6 +594,7 @@ export type UserCreateManyTenantInput = {
   email: string
   password: string
   plan?: $Enums.PlanType
+  stripeSessionId?: string | null
   planExpiry?: Date | string | null
   role?: $Enums.Role
 }
@@ -570,6 +604,7 @@ export type UserUpdateWithoutTenantInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -580,6 +615,7 @@ export type UserUncheckedUpdateWithoutTenantInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -590,6 +626,7 @@ export type UserUncheckedUpdateManyWithoutTenantInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  stripeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
 }
@@ -631,6 +668,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   tenantId?: boolean
   plan?: boolean
+  stripeSessionId?: boolean
   planExpiry?: boolean
   role?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -644,6 +682,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   tenantId?: boolean
   plan?: boolean
+  stripeSessionId?: boolean
   planExpiry?: boolean
   role?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -655,6 +694,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   tenantId?: boolean
   plan?: boolean
+  stripeSessionId?: boolean
   planExpiry?: boolean
   role?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -666,11 +706,12 @@ export type UserSelectScalar = {
   password?: boolean
   tenantId?: boolean
   plan?: boolean
+  stripeSessionId?: boolean
   planExpiry?: boolean
   role?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "tenantId" | "plan" | "planExpiry" | "role", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "tenantId" | "plan" | "stripeSessionId" | "planExpiry" | "role", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
@@ -695,6 +736,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string
     tenantId: string
     plan: $Enums.PlanType
+    stripeSessionId: string | null
     planExpiry: Date | null
     role: $Enums.Role
   }, ExtArgs["result"]["user"]>
@@ -1127,6 +1169,7 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly tenantId: Prisma.FieldRef<"User", 'String'>
   readonly plan: Prisma.FieldRef<"User", 'PlanType'>
+  readonly stripeSessionId: Prisma.FieldRef<"User", 'String'>
   readonly planExpiry: Prisma.FieldRef<"User", 'DateTime'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
 }

@@ -23,6 +23,9 @@ let PaymentStripController = class PaymentStripController {
     async create(body) {
         return this.paymentStripService.createPayment(body.userId, body.amount);
     }
+    async verifySession(sessionId) {
+        return this.paymentStripService.verifyAndFulfill(sessionId);
+    }
     async webhook(req, signature, res) {
         console.log('=== Webhook Hit ===');
         console.log('Signature exists:', !!signature);
@@ -53,6 +56,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PaymentStripController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)('verify-session'),
+    __param(0, (0, common_1.Query)('session_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PaymentStripController.prototype, "verifySession", null);
 __decorate([
     (0, common_1.Post)('webhook'),
     __param(0, (0, common_1.Req)()),

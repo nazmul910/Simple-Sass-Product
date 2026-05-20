@@ -57,6 +57,25 @@ let PaymentStripService = class PaymentStripService {
             throw new Error('Failed to create payment session');
         }
     }
+    async verifyAndFulfill(sessionId) {
+        const session = await this.stripe.checkout.sessions.retrieve(sessionId);
+        if (session.payment_status !== 'paid') {
+            throw new Error('Payment not completed');
+        }
+        const userId = session.metadata?.userId;
+        if (!userId) {
+            throw new Error('Missing userId in session metadata');
+        }
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { stripeSessionId: true },
+        });
+        if (user?.stripeSessionId === sessionId) {
+            return { success: true, alreadyProcessed: true };
+        }
+        await this.fulfillOrder(session);
+        return { success: true };
+    }
     async handleWebhook(rawBody, signature) {
         const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
         if (!webhookSecret) {
@@ -101,7 +120,11 @@ let PaymentStripService = class PaymentStripService {
         expiry.setDate(expiry.getDate() + days);
         await this.prisma.user.update({
             where: { id: userId },
-            data: { plan, planExpiry: expiry },
+            data: {
+                plan,
+                planExpiry: expiry,
+                stripeSessionId: session.id,
+            },
         });
         console.log(`Plan updated → userId: ${userId} | plan: ${plan} | expiry: ${expiry}`);
     }

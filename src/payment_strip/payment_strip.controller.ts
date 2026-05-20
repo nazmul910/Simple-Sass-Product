@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   Headers,
   Post,
+  Query,
   Req,
   Res,
 
@@ -18,6 +20,11 @@ export class PaymentStripController {
   @Post()
   async create(@Body() body: any) {
     return this.paymentStripService.createPayment(body.userId, body.amount);
+  }
+
+    @Get('verify-session')
+  async verifySession(@Query('session_id') sessionId: string) {
+    return this.paymentStripService.verifyAndFulfill(sessionId);
   }
 
   @Post('webhook')

@@ -29,6 +29,7 @@ model User{
   tenantId String
   plan PlanType @default(FREE)
 
+  stripeSessionId String?   
   planExpiry DateTime? @map("planeExpiry")
   tenant Tenant @relation(fields:[tenantId], references:[id])
   payments Payment[]

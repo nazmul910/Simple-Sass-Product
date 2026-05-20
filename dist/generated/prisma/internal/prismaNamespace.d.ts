@@ -441,6 +441,7 @@ export declare const UserScalarFieldEnum: {
     readonly password: "password";
     readonly tenantId: "tenantId";
     readonly plan: "plan";
+    readonly stripeSessionId: "stripeSessionId";
     readonly planExpiry: "planExpiry";
     readonly role: "role";
 };

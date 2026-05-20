@@ -7,5 +7,12 @@ export declare class PaymentStripController {
     create(body: any): Promise<{
         gatewayURL: string | null;
     }>;
+    verifySession(sessionId: string): Promise<{
+        success: boolean;
+        alreadyProcessed: boolean;
+    } | {
+        success: boolean;
+        alreadyProcessed?: undefined;
+    }>;
     webhook(req: RawBodyRequest<Request>, signature: string, res: Response): Promise<Response<any, Record<string, any>>>;
 }

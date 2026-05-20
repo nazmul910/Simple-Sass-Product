@@ -10,6 +10,7 @@ export declare class AuthController {
             password: string;
             tenantId: string;
             plan: import("../../generated/prisma/enums").PlanType;
+            stripeSessionId: string | null;
             planExpiry: Date | null;
             role: import("../../generated/prisma/enums").Role;
         };
@@ -23,6 +24,7 @@ export declare class AuthController {
             password: string;
             tenantId: string;
             plan: import("../../generated/prisma/enums").PlanType;
+            stripeSessionId: string | null;
             planExpiry: Date | null;
             role: import("../../generated/prisma/enums").Role;
         };

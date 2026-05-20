@@ -8,6 +8,7 @@ export declare class UsersService {
         password: string;
         tenantId: string;
         plan: import("../../generated/prisma/enums").PlanType;
+        stripeSessionId: string | null;
         planExpiry: Date | null;
         role: import("../../generated/prisma/enums").Role;
     } | null>;
@@ -17,6 +18,7 @@ export declare class UsersService {
         password: string;
         tenantId: string;
         plan: import("../../generated/prisma/enums").PlanType;
+        stripeSessionId: string | null;
         planExpiry: Date | null;
         role: import("../../generated/prisma/enums").Role;
     }[]>;

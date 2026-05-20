@@ -66,6 +66,7 @@ exports.UserScalarFieldEnum = {
     password: 'password',
     tenantId: 'tenantId',
     plan: 'plan',
+    stripeSessionId: 'stripeSessionId',
     planExpiry: 'planExpiry',
     role: 'role'
 };

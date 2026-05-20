@@ -47,12 +47,41 @@ export class PaymentStripService {
     }
   }
 
+  async verifyAndFulfill(sessionId: string) {
+    // Stripe থেকে session retrieve করো
+    const session = await this.stripe.checkout.sessions.retrieve(sessionId);
+
+    // Payment complete হয়েছে কিনা check করো
+    if (session.payment_status !== 'paid') {
+      throw new Error('Payment not completed');
+    }
+
+    const userId = session.metadata?.userId;
+    if (!userId) {
+      throw new Error('Missing userId in session metadata');
+    }
+
+    // ✅ Double processing check — same session আগে process হয়েছে কিনা
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { stripeSessionId: true },
+    });
+
+    if (user?.stripeSessionId === sessionId) {
+      return { success: true, alreadyProcessed: true };
+    }
+
+    // DB update করো
+    await this.fulfillOrder(session);
+
+    return { success: true };
+  }
+
   async handleWebhook(rawBody: Buffer, signature: string) {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!webhookSecret) {
       throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable');
     }
-
 
     let event;
 
@@ -104,7 +133,11 @@ export class PaymentStripService {
 
     await this.prisma.user.update({
       where: { id: userId },
-      data: { plan, planExpiry: expiry },
+      data: {
+        plan,
+        planExpiry: expiry,
+        stripeSessionId: session.id, // ✅ Session ID save করো
+      },
     });
 
     console.log(`Plan updated → userId: ${userId} | plan: ${plan} | expiry: ${expiry}`);
