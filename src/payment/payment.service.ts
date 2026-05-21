@@ -20,9 +20,12 @@ const paymentData = {
       currency: 'BDT',
       tran_id,
 
-      success_url: 'https://outhouse-bulldog-jeep.ngrok-free.dev/api/payment/success',
-      fail_url: 'https://outhouse-bulldog-jeep.ngrok-free.dev/api/payment/fail',
-      cancel_url: 'https://outhouse-bulldog-jeep.ngrok-free.dev/api/payment/cancel',
+
+      //https://simple-sass-product.onrender.com/ https://outhouse-bulldog-jeep.ngrok-free.dev
+
+      success_url: 'https://simple-sass-product.onrender.com/api/payment/success',
+      fail_url: 'https://simple-sass-product.onrender.com/api/payment/fail',
+      cancel_url: 'https://simple-sass-product.onrender.com/api/payment/cancel',
 
       cus_name: 'Customer',
       cus_email: 'customer@example.com',
