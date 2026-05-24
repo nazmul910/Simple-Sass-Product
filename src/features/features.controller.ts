@@ -14,7 +14,7 @@ export class FeaturesController {
   }
 
   @UseGuards(JwtGuard, new PlanGuard('STANDARD'))
-  @Get('feature2')
+  @Get('Your Standard Feature')
   feature2(@Req() req: any) {
     return this.featuresService.getFeature2(req.user.userId);
   }
