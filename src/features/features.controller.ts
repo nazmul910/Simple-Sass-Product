@@ -8,7 +8,7 @@ export class FeaturesController {
   constructor(private featuresService: FeaturesService) {}
 
   @UseGuards(JwtGuard, new PlanGuard('BASIC'))
-  @Get('feature1')
+  @Get('Your Basic Feature')
   feature1(@Req() req: any) {
     return this.featuresService.getFeature1(req.user.userId);
   }
@@ -20,7 +20,7 @@ export class FeaturesController {
   }
 
   @UseGuards(JwtGuard, new PlanGuard('PREMIUM'))
-  @Get('feature3')
+  @Get('Your Premium Feature is activated')
   feature3(@Req() req: any) {
     return this.featuresService.getFeature3(req.user.userId);
   }
