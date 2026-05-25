@@ -20,7 +20,7 @@ export class FeaturesController {
   }
 
   @UseGuards(JwtGuard, new PlanGuard('PREMIUM'))
-  @Get('Your Premium Feature is activated')
+  @Get('Your Premium Feature is activated with your subscription')
   feature3(@Req() req: any) {
     return this.featuresService.getFeature3(req.user.userId);
   }
