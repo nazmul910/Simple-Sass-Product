@@ -61,7 +61,7 @@ const paymentData = {
       return { gatewayURL };  
     } catch (error) {
       console.error('Error creating payment:', error);
-      throw new InternalServerErrorException('Failed to create payment');
+      throw new InternalServerErrorException('Failed create ssl commnerz payment');
     }
     }
 
